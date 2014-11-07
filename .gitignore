@@ -1,3 +1,7 @@
 # ignore binaries
 /proDev.Web/bin
 /proDev.Web/obj
+
+# ignore emacs
+*~
+\#*\#
