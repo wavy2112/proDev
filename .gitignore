@@ -1,4 +1,4 @@
-# ignore binaries
+## ignore binaries
 /proDev.Web/bin
 /proDev.Web/obj
 
