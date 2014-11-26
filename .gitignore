@@ -5,3 +5,6 @@
 # ignore emacs
 *~
 \#*\#
+
+#ignore .suo files
+*.suo
