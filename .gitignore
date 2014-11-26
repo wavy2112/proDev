@@ -8,3 +8,6 @@
 
 #ignore .suo files
 *.suo
+
+#ignore user creation files, do not want public on GitHub
+*_2_User.sql
