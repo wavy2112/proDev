@@ -1,6 +1,8 @@
 ## ignore binaries
 /proDev.Web/bin
 /proDev.Web/obj
+/proDev.EF/bin
+/proDev.EF/obj
 
 # ignore emacs
 *~
@@ -11,3 +13,7 @@
 
 #ignore user creation files, do not want public on GitHub
 *_2_User.sql
+
+#ignore config files, do not want public on GitHub
+Web.config
+App.config
