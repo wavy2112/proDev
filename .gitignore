@@ -3,6 +3,8 @@
 /proDev.Web/obj
 /proDev.EF/bin
 /proDev.EF/obj
+/proDev.Biz/bin
+/proDev.Biz/obj
 
 # ignore emacs
 *~
