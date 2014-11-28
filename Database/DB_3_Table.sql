@@ -1,7 +1,7 @@
 ﻿USE [PRODEV]
 GO
 
-/****** Object:  Table [dbo].[COREENTITY]    Script Date: 2014-11-26 3:12:00 PM ******/
+/****** Object:  Table [dbo].[COREENTITY]    Script Date: 2014-11-27 4:15:14 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,6 +12,8 @@ CREATE TABLE [dbo].[COREENTITY](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[NAME] [nchar](32) NOT NULL,
 	[GEOPOLY] [geography] NOT NULL,
+	[DATEBEGIN] [datetime] NULL,
+	[DATEEND] [datetime] NULL,
  CONSTRAINT [PK_COREENTITY] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC

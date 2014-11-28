@@ -15,6 +15,8 @@
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="nchar" Nullable="false" MaxLength="32" />
           <Property Name="GEOPOLY" Type="geography" Nullable="false" />
+          <Property Name="DATEBEGIN" Type="datetime" />
+          <Property Name="DATEEND" Type="datetime" />
         </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -30,6 +32,8 @@
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="NAME" Nullable="false" MaxLength="32" FixedLength="true" Unicode="true" />
           <Property Type="Geography" Name="GEOPOLY" Nullable="false" />
+          <Property Type="DateTime" Name="DATEBEGIN" Precision="3" />
+          <Property Type="DateTime" Name="DATEEND" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -40,6 +44,8 @@
           <EntitySetMapping Name="COREENTITies">
             <EntityTypeMapping TypeName="PRODEVModel.COREENTITY">
               <MappingFragment StoreEntitySet="COREENTITY">
+                <ScalarProperty Name="DATEEND" ColumnName="DATEEND" />
+                <ScalarProperty Name="DATEBEGIN" ColumnName="DATEBEGIN" />
                 <ScalarProperty Name="GEOPOLY" ColumnName="GEOPOLY" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

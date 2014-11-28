@@ -17,5 +17,7 @@ namespace proDev.EF
         public int ID { get; set; }
         public string NAME { get; set; }
         public System.Data.Spatial.DbGeography GEOPOLY { get; set; }
+        public Nullable<System.DateTime> DATEBEGIN { get; set; }
+        public Nullable<System.DateTime> DATEEND { get; set; }
     }
 }
