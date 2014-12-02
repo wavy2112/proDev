@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Data.Spatial;
+using System.Data.Entity.Spatial;
 
 namespace proDev.Biz
 {
@@ -12,17 +12,26 @@ namespace proDev.Biz
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public DateTime BeginDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? BeginDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public DbGeography GeoPoly { get; set; }
 
         public static List<CoreEntity> GetCoreEntities() {
 
-            List<CoreEntity> coreEntities = new List<CoreEntity>();
-            /*
-            var x = new proDev.EF.PRODEVEntities();
-            var y = x.COREENTITies;
-            */
+            List<CoreEntity> coreEntities;
+            using (var db = new proDev.EF.PRODEVEntities()) {
+                coreEntities = db.COREENTITies
+                    .Select(ce => new CoreEntity()
+                    {
+                        ID = ce.ID,
+                        Name = ce.NAME,
+                        BeginDate = ce.DATEBEGIN,
+                        EndDate = ce.DATEEND,
+                        GeoPoly = ce.GEOPOLY
+                    })
+                    .ToList();              
+                db.COREENTITies.Count();
+            }
             
             return coreEntities;
 

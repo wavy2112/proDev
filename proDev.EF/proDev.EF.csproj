@@ -30,7 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
@@ -39,7 +40,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -78,16 +78,16 @@
     </EntityDeploy>
     <None Include="proDevDataEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>proDevDataEntities.edmx</DependentUpon>
       <LastGenOutput>proDevDataEntities.Context.cs</LastGenOutput>
+      <DependentUpon>proDevDataEntities.edmx</DependentUpon>
     </None>
     <None Include="proDevDataEntities.edmx.diagram">
       <DependentUpon>proDevDataEntities.edmx</DependentUpon>
     </None>
     <None Include="proDevDataEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>proDevDataEntities.edmx</DependentUpon>
       <LastGenOutput>proDevDataEntities.cs</LastGenOutput>
+      <DependentUpon>proDevDataEntities.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
