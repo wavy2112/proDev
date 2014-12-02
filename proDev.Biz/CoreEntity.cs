@@ -30,7 +30,6 @@ namespace proDev.Biz
                         GeoPoly = ce.GEOPOLY
                     })
                     .ToList();              
-                db.COREENTITies.Count();
             }
             
             return coreEntities;
