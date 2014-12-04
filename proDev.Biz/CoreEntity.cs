@@ -35,5 +35,33 @@ namespace proDev.Biz
             return coreEntities;
 
         }
+
+        public static List<CoreEntity> GetAdjacentEntities(int pivotEntityID, int unitDistance){
+            DbGeography pivotPoly;
+
+            List<CoreEntity> adjEntities;
+
+            using (var db = new proDev.EF.PRODEVEntities())
+            {
+                pivotPoly = db.COREENTITies
+                    .Where(ce => ce.ID  == pivotEntityID)
+                    .FirstOrDefault().GEOPOLY;
+
+                adjEntities = db.COREENTITies
+                    .Select(ce => new CoreEntity()
+                    {
+                        ID = ce.ID,
+                        Name = ce.NAME,
+                        BeginDate = ce.DATEBEGIN,
+                        EndDate = ce.DATEEND,
+                        GeoPoly = ce.GEOPOLY
+                    })
+                    .Where(ce => ce.GeoPoly.Distance(pivotPoly) <= unitDistance)
+                    .ToList();              
+            }
+
+            return adjEntities;
+        }
+    
     }
 }

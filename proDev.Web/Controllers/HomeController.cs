@@ -15,18 +15,20 @@ namespace proDev.Controllers
 
         public ActionResult Index()
         {
-            string polyText = string.Empty;
             double areaSum = 0;
 
-            List<CoreEntity> coreEntities = CoreEntity.GetCoreEntities();
+//            List<CoreEntity> coreEntities = CoreEntity.GetCoreEntities();
+
+            List<CoreEntity> coreEntities = CoreEntity.GetAdjacentEntities(2362, 10000);
+            
+            ViewBag.PolyList = new List<string>();
 
             foreach (var entity in coreEntities)
             {
-                polyText += "Poly GML: " + entity.GeoPoly.AsGml() + " | Area: " +  entity.GeoPoly.Area.Value;
+                ViewBag.PolyList.Add("Entity: " + entity.Name + " | Area: " +  entity.GeoPoly.Area.Value + " | " + entity.BeginDate.ToString() + " to " + entity.EndDate.ToString());
                 areaSum += entity.GeoPoly.Area.Value;
             }
 
-            ViewBag.PolyData = polyText;
             ViewBag.TotalArea = areaSum;
             return View();
         }
