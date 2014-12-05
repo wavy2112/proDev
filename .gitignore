@@ -6,7 +6,7 @@
 /proDev.Biz/bin
 /proDev.Biz/obj
 
-# ignore emacs
+# ignore emacs back files
 *~
 \#*\#
 
