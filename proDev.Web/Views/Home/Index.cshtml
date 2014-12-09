@@ -2,13 +2,12 @@
     ViewBag.Title = "Index";
 }
 
-    Poly Summary: 
+    <b>Poly Summary:</b> 
 
     @foreach (var item in ViewBag.PolyList)
     {
         <p><code>@item</code></p>
     }
 
-<p>
-    Total Area: @ViewBag.TotalArea
-</p>
+    <br>
+    <b>Total Area:</b><p><code>@ViewBag.TotalArea</code></p>
