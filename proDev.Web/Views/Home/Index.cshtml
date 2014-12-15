@@ -2,6 +2,45 @@
     ViewBag.Title = "Index";
 }
 
+@section PageScripts{    
+
+
+    <script type="text/javascript">
+        //$.getJSON("ajax/test.json", function (data) {
+
+        //  var items = [];
+        //  $.each( data, function( key, val ) {
+        //    items.push( "<li id='" + key + "'>" + val + "</li>" );
+        //  });
+
+        //  $( "<ul/>", {
+        //    "class": "my-new-list",
+        //    html: items.join( "" )
+        //  }).appendTo( "body" );
+
+        //});
+
+
+        $(document).ready(function () {
+            $("#clickMe").click(function () {
+                GetTestData();
+            });
+        });
+
+        function GetTestData() {
+            $.getJSON('WS/Test', { get_param: 'value' }, function (data) {
+                $.each(data, function (index, element) {
+                    $('body').append($('<div>', {
+//                        text: element.name
+                        text: element
+                    }));
+                });
+            });
+        }
+
+    </script>
+}
+
     <b>Poly Summary:</b> 
 
     @foreach (var item in ViewBag.PolyList)
@@ -11,3 +50,7 @@
 
     <br>
     <b>Total Area:</b><p><code>@ViewBag.TotalArea</code></p>
+
+
+    <h3 id="clickMe">Test</h3>
+

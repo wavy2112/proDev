@@ -5,6 +5,8 @@
 /proDev.EF/obj
 /proDev.Biz/bin
 /proDev.Biz/obj
+/proDev.WebService/bin
+/proDev.WebService/obj
 
 # ignore emacs back files
 *~
