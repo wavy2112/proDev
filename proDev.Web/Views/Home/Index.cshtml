@@ -4,36 +4,27 @@
 
 @section PageScripts{    
 
-
     <script type="text/javascript">
-        //$.getJSON("ajax/test.json", function (data) {
-
-        //  var items = [];
-        //  $.each( data, function( key, val ) {
-        //    items.push( "<li id='" + key + "'>" + val + "</li>" );
-        //  });
-
-        //  $( "<ul/>", {
-        //    "class": "my-new-list",
-        //    html: items.join( "" )
-        //  }).appendTo( "body" );
-
-        //});
-
 
         $(document).ready(function () {
-            $("#clickMe").click(function () {
-                GetTestData();
+            $("#parcelButton").click(function () {
+                GetParcelData();
             });
         });
 
-        function GetTestData() {
-            $.getJSON('WS/Test', { get_param: 'value' }, function (data) {
+        function GetParcelData() {
+            $.getJSON('WS/Parcel', { get_param: 'value' }, function (data) {
                 $.each(data, function (index, element) {
-                    $('body').append($('<div>', {
-//                        text: element.name
-                        text: element
-                    }));
+                    $('body')
+                        .append('<p></p>')
+                        .append($('<ul>', {
+                            html: '<li><code><b>Name:</b> ' + element.Name + '</code></li>' +
+                                '<li><code><b>Begin:</b> ' + element.BeginDate + '</code></li>' +
+                                '<li><code><b>End:</b> ' + element.EndDate + '</code></li>' +
+                                '<li><code><b>Area:</b> ' + element.Area + '</code></li>' +
+                                '<li><code><b>GML:</b> ' + element.GML + '</code></li>' +
+                                '<li><code><b>WKT:</b> ' + element.WKT + '</code></li>'
+                            }));
                 });
             });
         }
@@ -52,5 +43,4 @@
     <b>Total Area:</b><p><code>@ViewBag.TotalArea</code></p>
 
 
-    <h3 id="clickMe">Test</h3>
-
+    <button id="parcelButton" type="button">Get Parcels</button>

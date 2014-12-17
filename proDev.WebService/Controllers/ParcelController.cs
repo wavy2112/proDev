@@ -6,47 +6,53 @@ using System.Net.Http;
 using System.Web.Http;
 
 using proDev.Biz;
+using proDev.WebService.APIModel;
 
 namespace proDev.WebService.Controllers
 {
-    public class TestController : ApiController
+    public class ParcelController : ApiController
     {
-        // GET <controller>
-        public List<string> Get()
+        // GET api/parcel
+        public IEnumerable<Parcel> Get()
         {
             double areaSum = 0;
-            List<string> entities = new List<string>();
-
-            //            List<CoreEntity> coreEntities = CoreEntity.GetCoreEntities();
-
+            List<Parcel> parcels = new List<APIModel.Parcel>();
             List<CoreEntity> coreEntities = CoreEntity.GetAdjacentEntities(2362, 10000);
 
             foreach (var entity in coreEntities)
             {
-                entities.Add("Entity: " + entity.Name + " | Area: " + entity.GeoPoly.Area.Value + " | " + entity.BeginDate.ToString() + " to " + entity.EndDate.ToString());
+                parcels.Add(new Parcel(){
+                    ID = entity.ID,
+                    Name = entity.Name,
+                    BeginDate = entity.BeginDate,
+                    EndDate = entity.EndDate,
+                    Area = entity.GeoPoly.Area.Value,
+                    GML = entity.GeoPoly.AsGml(),
+                    WKT = entity.GeoPoly.AsText()
+                });
                 areaSum += entity.GeoPoly.Area.Value;
             }
-            
-            return entities;
+
+            return parcels;
         }
 
-        // GET <controller>/5
+        // GET api/parcel/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST <controller>
+        // POST api/parcel
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT <controller>/5
+        // PUT api/parcel/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE <controller>/5
+        // DELETE api/parcel/5
         public void Delete(int id)
         {
         }
