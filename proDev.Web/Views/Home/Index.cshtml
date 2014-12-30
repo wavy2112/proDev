@@ -4,15 +4,55 @@
 
 @section PageScripts{    
 
-    <script type="text/javascript">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 
-        $(document).ready(function () {
-            $("#parcelButton").click(function () {
-                GetParcelData();
+    <script type="text/javascript">
+        var map;
+        var geoJSONFeatures = "";
+
+        function ClearMapFeatures() {
+            geoJSONFeatures = "";
+            map.data.forEach(function (feature) {
+                //If you want, check here for some constraints.
+                map.data.remove(feature);
             });
-        });
+        }
+
+        function AddGeoJSONFeature(geoJSONGeometry) {
+
+            if (geoJSONFeatures) geoJSONFeatures = geoJSONFeatures + ",";
+            geoJSONFeatures = geoJSONFeatures + "{" +
+              "\"type\": \"Feature\"," +
+              "\"properties\": {" +
+                  "\"letter\": \"G\"," +
+                  "\"color\": \"blue\"," +
+                  "\"rank\": \"7\"," +
+                  "\"ascii\": \"71\"" +
+              "}," +
+              "\"geometry\":"
+                  + geoJSONGeometry +
+          "}";
+        }
+
+        function GetDataLayerGeoJSON() {
+            return "{" +
+            "\"type\": \"FeatureCollection\"," +
+            "\"features\": [" +
+              geoJSONFeatures +
+            "]" +
+            "}";
+        }
+
+        function InitializeMap() {
+            map = new google.maps.Map(document.getElementById('map-canvas'), {
+                zoom: 14,
+                center: { lng: -119.04110299999999, lat: 36.172754000000012 }
+            });
+        }
 
         function GetParcelData() {
+            ClearMapFeatures();
+
             $.getJSON('WS/Parcel', { get_param: 'value' }, function (data) {
                 $.each(data, function (index, element) {
                     $('body')
@@ -23,11 +63,26 @@
                                 '<li><code><b>End:</b> ' + element.EndDate + '</code></li>' +
                                 '<li><code><b>Area:</b> ' + element.Area + '</code></li>' +
                                 '<li><code><b>GML:</b> ' + element.GML + '</code></li>' +
-                                '<li><code><b>WKT:</b> ' + element.WKT + '</code></li>'
-                            }));
+                                '<li><code><b>WKT:</b> ' + element.WKT + '</code></li>' +
+                                '<li><code><b>GeoJSON:</b> ' + element.GeoJSON + '</code></li>'
+                        }));
+
+                    AddGeoJSONFeature(element.GeoJSON);
                 });
+
+                map.data.addGeoJson(JSON.parse(GetDataLayerGeoJSON()));
+
             });
+
         }
+
+        $(document).ready(function () {
+            google.maps.event.addDomListener(window, 'load', InitializeMap);
+
+            $("#parcelButton").click(function () {
+                GetParcelData();
+            });
+        });
 
     </script>
 }
@@ -42,5 +97,6 @@
     <br>
     <b>Total Area:</b><p><code>@ViewBag.TotalArea</code></p>
 
+    <div id="map-canvas" style="height:500px;width:500px"></div>
 
     <button id="parcelButton" type="button">Get Parcels</button>
