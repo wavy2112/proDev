@@ -13,6 +13,7 @@ namespace proDev.WebService.Controllers
     public class ParcelsController : ApiController
     {
 
+        // GET WS/Parcels/{id}/Adjacent
         /// <summary>
         /// Get all entities within the supplied distance from the supplied parcel
         /// </summary>

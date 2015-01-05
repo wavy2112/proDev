@@ -15,6 +15,8 @@ namespace proDev.Controllers
 
         public ActionResult Index()
         {
+
+            //Get some data to display on the page
             double areaSum = 0;
 
             List<CoreEntity> coreEntities = CoreEntity.GetAdjacentEntities(2362, 10000);

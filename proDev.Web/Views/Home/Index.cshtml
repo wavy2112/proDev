@@ -10,6 +10,7 @@
         var map;
         var geoJSONFeatures = "";
 
+        //Clear all features from JSON feature list and map
         function ClearMapFeatures() {
             geoJSONFeatures = "";
             map.data.forEach(function (feature) {
@@ -17,6 +18,7 @@
             });
         }
 
+        //Add a feature to the JSON feature list
         function AddGeoJSONFeature(geoJSONGeometry) {
 
             if (geoJSONFeatures) geoJSONFeatures = geoJSONFeatures + ",";
@@ -33,6 +35,7 @@
           "}";
         }
 
+        //Use the JSON feature list to create the google map data layer
         function GetDataLayerGeoJSON() {
             return "{" +
             "\"type\": \"FeatureCollection\"," +
@@ -42,6 +45,7 @@
             "}";
         }
 
+        //Initialize the google map
         function InitializeMap() {
             map = new google.maps.Map(document.getElementById('map-canvas'), {
                 zoom: 13,
@@ -49,10 +53,14 @@
             });
         }
 
+        //Get parcel data from the web service
         function GetParcelData() {
             ClearMapFeatures();
 
-            $.getJSON('WS/parcels/2708/adjacent?distance=500', { get_param: 'value' }, function (data) {
+            var parcelID = $("#parcelID").val();
+            var distance = $("#distance").val();
+
+            $.getJSON('WS/parcels/' + parcelID + '/adjacent?distance=' + distance, { get_param: 'value' }, function (data) {
                 //Clear the summary
                 $('#parcelSummary').html("");
                 $.each(data, function (index, element) {
@@ -95,6 +103,16 @@
 }
 
 <div id="map-canvas" style="height:500px;width:500px"></div>
+
+<br>
+
+<div class="ui-widget" style="font-size:small">
+  <label for="parcelID">Parcel ID: </label>
+  <input value="2708" id="parcelID">
+
+  <label for="distance">Distance: </label>
+  <input value="100" id="distance">
+</div>
 
 <p>
 <button id="parcelButton" type="button">Get Parcels</button>
