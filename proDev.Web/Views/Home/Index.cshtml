@@ -53,8 +53,10 @@
             ClearMapFeatures();
 
             $.getJSON('WS/Parcel', { get_param: 'value' }, function (data) {
+                //Clear the summary
+                $('#parcelSummary').html("");
                 $.each(data, function (index, element) {
-                    $('body')
+                    $('#parcelSummary')
                         .append('<p></p>')
                         .append($('<ul>', {
                             html: '<li><code><b>Name:</b> ' + element.Name + '</code></li>' +
@@ -81,21 +83,38 @@
             $("#parcelButton").click(function () {
                 GetParcelData();
             });
+
+            $("#accordion").accordion({
+                collapsible: true,
+                active: false
+            });
         });
+
 
     </script>
 }
 
-    <b>Entity Summary:</b> 
+<div id="map-canvas" style="height:500px;width:500px"></div>
 
+<p>
+<button id="parcelButton" type="button">Get Parcels</button>
+</p>
+
+<div id="accordion" style="font-size:x-small;width:500px">
+  <h3>Parcel Summary</h3>
+  <div id="parcelSummary">
+  </div>
+
+  <h3>Parcel Summary Test</h3>
+  <div id="parcelSummaryTest">
     @foreach (var item in ViewBag.PolyList)
     {
         <p><code>@item</code></p>        
     }
-
     <br>
     <b>Total Area:</b><p><code>@ViewBag.TotalArea</code></p>
+  </div>
+</div>
 
-    <div id="map-canvas" style="height:500px;width:500px"></div>
 
-    <button id="parcelButton" type="button">Get Parcels</button>
+
