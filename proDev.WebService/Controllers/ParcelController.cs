@@ -17,7 +17,7 @@ namespace proDev.WebService.Controllers
         {
             double areaSum = 0;
             List<Parcel> parcels = new List<APIModel.Parcel>();
-            List<CoreEntity> coreEntities = CoreEntity.GetAdjacentEntities(2362, 10000);
+            List<CoreEntity> coreEntities = CoreEntity.GetAdjacentEntities(2708, 100);
 
             foreach (var entity in coreEntities)
             {

@@ -13,7 +13,6 @@
         function ClearMapFeatures() {
             geoJSONFeatures = "";
             map.data.forEach(function (feature) {
-                //If you want, check here for some constraints.
                 map.data.remove(feature);
             });
         }
@@ -45,8 +44,8 @@
 
         function InitializeMap() {
             map = new google.maps.Map(document.getElementById('map-canvas'), {
-                zoom: 14,
-                center: { lng: -119.04110299999999, lat: 36.172754000000012 }
+                zoom: 13,
+                center: { lng: -119.305033, lat: 36.674222 }
             });
         }
 

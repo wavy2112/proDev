@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{F1
 		Database\DB_1_Database.sql = Database\DB_1_Database.sql
 		Database\DB_2_User.sql = Database\DB_2_User.sql
 		Database\DB_3_Table.sql = Database\DB_3_Table.sql
-		Database\SampleData.sql = Database\SampleData.sql
+		Database\TestData_MultiPoly.sql = Database\TestData_MultiPoly.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "proDev.EF", "proDev.EF\proDev.EF.csproj", "{38B81DFC-FCF4-4B31-9275-62743A58A3DE}"
