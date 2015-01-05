@@ -89,7 +89,7 @@
   <ItemGroup>
     <Compile Include="APIModel\Parcel.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ParcelController.cs" />
+    <Compile Include="Controllers\ParcelsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -16,6 +16,10 @@ namespace proDev.Biz
         public DateTime? EndDate { get; set; }
         public DbGeography GeoPoly { get; set; }
 
+        /// <summary>
+        /// Get all core entities
+        /// </summary>
+        /// <returns></returns>
         public static List<CoreEntity> GetCoreEntities() {
 
             List<CoreEntity> coreEntities;
@@ -36,6 +40,12 @@ namespace proDev.Biz
 
         }
 
+        /// <summary>
+        /// Get all coreentities within "unitDistance" of the supplied entity
+        /// </summary>
+        /// <param name="pivotEntityID"></param>
+        /// <param name="unitDistance"></param>
+        /// <returns></returns>
         public static List<CoreEntity> GetAdjacentEntities(int pivotEntityID, int unitDistance){
             DbGeography pivotPoly;
 

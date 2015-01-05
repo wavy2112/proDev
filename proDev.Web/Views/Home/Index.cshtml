@@ -52,7 +52,7 @@
         function GetParcelData() {
             ClearMapFeatures();
 
-            $.getJSON('WS/Parcel', { get_param: 'value' }, function (data) {
+            $.getJSON('WS/parcels/2708/adjacent?distance=500', { get_param: 'value' }, function (data) {
                 //Clear the summary
                 $('#parcelSummary').html("");
                 $.each(data, function (index, element) {
