@@ -10,6 +10,35 @@
         var map;
         var geoJSONFeatures = "";
 
+        function ColorFromArea(polyArea) {
+            var area = parseFloat(polyArea);
+
+            if (area <= 10000) { return "#a000000"; }
+            else if (area > 10000 && area <= 50000) { return "#a00000"; }
+            else if (area > 50000 && area <= 100000) { return "#0a0000"; }
+            else if (area > 100000 && area <= 150000) { return "#00a000"; }
+            else if (area > 150000 && area <= 200000) { return "#000a00"; }
+            else if (area > 200000 && area <= 250000) { return "#0000a0"; }
+            else if (area > 250000 && area <= 300000) { return "#00000a"; }
+            else if (area > 300000 && area <= 350000) { return "#b00000"; }
+            else if (area > 350000 && area <= 400000) { return "#0b0000"; }
+            else if (area > 400000 && area <= 450000) { return "#00b000"; }
+            else if (area > 450000 && area <= 500000) { return "#000b00"; }
+            else if (area > 500000 && area <= 550000) { return "#0000b0"; }
+            else if (area > 550000 && area <= 600000) { return "#00000b"; }
+            else if (area > 600000 && area <= 650000) { return "#c00000"; }
+            else if (area > 650000 && area <= 700000) { return "#0c0000"; }
+            else if (area > 700000 && area <= 750000) { return "#00c000"; }
+            else if (area > 750000 && area <= 800000) { return "#000c00"; }
+            else if (area > 800000 && area <= 850000) { return "#0000c0"; }
+            else if (area > 850000 && area <= 900000) { return "#00000c"; }
+            else if (area > 900000 && area <= 950000) { return "#d00000"; }
+            else if (area > 950000 && area <= 1000000) { return "#0d0000"; }
+            else if (area > 1000000 && area <= 1050000) { return "#00d000"; }
+            else if (area > 1050000 && area <= 2000000) { return "#000d00"; }
+            else { return "#000000" };
+        }
+
         //Clear all features from JSON feature list and map
         function ClearMapFeatures() {
             geoJSONFeatures = "";
@@ -19,20 +48,21 @@
         }
 
         //Add a feature to the JSON feature list
-        function AddGeoJSONFeature(geoJSONGeometry) {
+        function AddGeoJSONFeature(parcelEntity) {
 
             if (geoJSONFeatures) geoJSONFeatures = geoJSONFeatures + ",";
             geoJSONFeatures = geoJSONFeatures + "{" +
-              "\"type\": \"Feature\"," +
-              "\"properties\": {" +
-                  "\"letter\": \"G\"," +
-                  "\"color\": \"blue\"," +
-                  "\"rank\": \"7\"," +
-                  "\"ascii\": \"71\"" +
-              "}," +
-              "\"geometry\":"
-                  + geoJSONGeometry +
-          "}";
+                "\"type\": \"Feature\"," +
+                "\"properties\": {" +
+                    "\"ID\": \"" + parcelEntity.ID + "\"," +
+                    "\"Name\": \"" + parcelEntity.Name + "\"," +
+                    "\"Area\": \"" + parcelEntity.Area + "\"," +
+                    "\"BeginDate\": \"" + parcelEntity.BeginDate + "\"," +
+                    "\"EndDate\": \"" + parcelEntity.EndDate + "\"" +
+                "}," +
+                "\"geometry\":"
+                    + parcelEntity.GeoJSON +
+            "}";
         }
 
         //Use the JSON feature list to create the google map data layer
@@ -40,16 +70,51 @@
             return "{" +
             "\"type\": \"FeatureCollection\"," +
             "\"features\": [" +
-              geoJSONFeatures +
+                geoJSONFeatures +
             "]" +
             "}";
         }
 
         //Initialize the google map
         function InitializeMap() {
+
             map = new google.maps.Map(document.getElementById('map-canvas'), {
                 zoom: 13,
-                center: { lng: -119.305033, lat: 36.674222 }
+                center: { lng: -119.305033, lat: 36.687 }
+            });
+
+            //Outline parcel orange when it is clicked
+            map.data.addListener('click', function (event) {
+                map.data.revertStyle();
+                map.data.overrideStyle(event.feature, {
+                    strokeColor: 'orange',
+                    strokeWeight: 2
+                });
+                
+                $("#parcelID").html(event.feature.getProperty('ID'));
+                $("#parcelName").html(event.feature.getProperty('Name'));
+                $("#parcelArea").html(event.feature.getProperty('Area'));
+                $("#parcelBeginDate").html(event.feature.getProperty('BeginDate'));
+                $("#parcelEndDate").html(event.feature.getProperty('EndDate'));
+
+                $("#pivotParcelID").val(event.feature.getProperty('ID'))
+            });
+
+            map.data.setStyle(function (feature) {
+                var lineColor = "black";
+                var lineWeight = 1;
+                var polyColor = ColorFromArea(feature.getProperty('Area'));
+
+                //Outline the pivot parcel blue
+                if (feature.getProperty('ID') == $("#pivotParcelID").val()) {
+                    lineColor = "blue";
+                    lineWeight = 2;
+                }
+                return ({
+                    fillColor: polyColor,
+                    strokeWeight: lineWeight,
+                    strokeColor: lineColor
+                });
             });
         }
 
@@ -57,7 +122,7 @@
         function GetParcelData() {
             ClearMapFeatures();
 
-            var parcelID = $("#parcelID").val();
+            var parcelID = $("#pivotParcelID").val();
             var distance = $("#distance").val();
 
             $.getJSON('WS/parcels/' + parcelID + '/adjacent?distance=' + distance, { get_param: 'value' }, function (data) {
@@ -67,7 +132,8 @@
                     $('#parcelSummary')
                         .append('<p></p>')
                         .append($('<ul>', {
-                            html: '<li><code><b>Name:</b> ' + element.Name + '</code></li>' +
+                            html: '<li><code><b>ID:</b> ' + element.ID + '</code></li>' +
+                                '<li><code><b>Name:</b> ' + element.Name + '</code></li>' +
                                 '<li><code><b>Begin:</b> ' + element.BeginDate + '</code></li>' +
                                 '<li><code><b>End:</b> ' + element.EndDate + '</code></li>' +
                                 '<li><code><b>Area:</b> ' + element.Area + '</code></li>' +
@@ -76,7 +142,7 @@
                                 '<li><code><b>GeoJSON:</b> ' + element.GeoJSON + '</code></li>'
                         }));
 
-                    AddGeoJSONFeature(element.GeoJSON);
+                    AddGeoJSONFeature(element);
                 });
 
                 map.data.addGeoJson(JSON.parse(GetDataLayerGeoJSON()));
@@ -84,6 +150,7 @@
             });
 
         }
+
 
         $(document).ready(function () {
             google.maps.event.addDomListener(window, 'load', InitializeMap);
@@ -98,27 +165,49 @@
             });
         });
 
-
     </script>
 }
 
-<div id="map-canvas" style="height:500px;width:500px"></div>
+<div id="map-canvas" style="height:400px;width:750px;"></div>
 
 <br>
 
-<div class="ui-widget" style="font-size:small">
-  <label for="parcelID">Parcel ID: </label>
-  <input value="2708" id="parcelID">
+<div style="background-color:lightgray;padding:4px;margin:2px;margin-bottom:10px;width:500px">
+    <p class="ui-widget" style="font-size:small"><b>Get Adjacent Parcels</b></p>
+    <div class="ui-widget" style="font-size:x-small;">
+      <label for="pivotParcelID">Parcel ID: </label>
+      <input value="2708" id="pivotParcelID">
+      <br>
+      <label for="distance">Distance: </label>
+      <input value="100" id="distance">
+    </div>
 
-  <label for="distance">Distance: </label>
-  <input value="100" id="distance">
+    <p>
+    <button id="parcelButton" type="button">Get Parcels</button>
+    </p>
 </div>
 
-<p>
-<button id="parcelButton" type="button">Get Parcels</button>
-</p>
+<div style="background-color:lightgray;padding:4px;margin:2px;margin-bottom:10px;width:500px">
+    <p class="ui-widget" style="font-size:small"><b>Selected Parcel Info</b></p>
+    <div class="ui-widget" style="font-size:x-small;">
+      <label for="parcelID">Parcel ID: </label>
+      <span id="parcelID"></span>
+      <br>
+      <label for="parcelName">Parcel Name: </label>
+      <span id="parcelName"></span>
+      <br>
+      <label for="parcelArea">Parcel Area: </label>
+      <span id="parcelArea"></span>
+      <br>
+      <label for="parcelBeginDate">Parcel Begin Date: </label>
+      <span id="parcelBeginDate"></span>
+      <br>
+      <label for="parcelEndDate">Parcel End Date: </label>
+      <span id="parcelEndDate"></span>
+    </div>
+</div>
 
-<div id="accordion" style="font-size:x-small;width:500px">
+<div id="accordion" style="font-size:x-small;width:508px">
   <h3>Parcel Summary</h3>
   <div id="parcelSummary">
   </div>
