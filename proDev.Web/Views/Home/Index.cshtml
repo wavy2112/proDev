@@ -80,7 +80,8 @@
 
             map = new google.maps.Map(document.getElementById('map-canvas'), {
                 zoom: 13,
-                center: { lng: -119.305033, lat: 36.687 }
+                center: { lng: -119.305033, lat: 36.687 },
+                mapTypeId: google.maps.MapTypeId.SATELLITE
             });
 
             //Outline parcel orange when it is clicked
@@ -173,14 +174,14 @@
 <br>
 
 <div style="background-color:lightgray;padding:4px;margin:2px;margin-bottom:10px;width:500px">
-    <p class="ui-widget" style="font-size:small"><b>Get Adjacent Parcels</b></p>
-    <div class="ui-widget" style="font-size:x-small;">
-      <label for="pivotParcelID">Parcel ID: </label>
+    <span class="ui-widget" style="font-size:small"><b>Adjacent Parcels</b></span>
+    <p class="ui-widget" style="font-size:x-small;">
+      <label for="pivotParcelID">Pivot ID: </label>
       <input value="2708" id="pivotParcelID">
       <br>
       <label for="distance">Distance: </label>
-      <input value="100" id="distance">
-    </div>
+      <input value="1000" id="distance">
+    </p>
 
     <p>
     <button id="parcelButton" type="button">Get Parcels</button>
@@ -188,23 +189,23 @@
 </div>
 
 <div style="background-color:lightgray;padding:4px;margin:2px;margin-bottom:10px;width:500px">
-    <p class="ui-widget" style="font-size:small"><b>Selected Parcel Info</b></p>
-    <div class="ui-widget" style="font-size:x-small;">
-      <label for="parcelID">Parcel ID: </label>
+    <span class="ui-widget" style="font-size:small"><b>Selected Parcel Info</b></span>
+    <p class="ui-widget" style="font-size:x-small;">
+      <label for="parcelID" style="font-weight:bold">Parcel ID: </label>
       <span id="parcelID"></span>
       <br>
-      <label for="parcelName">Parcel Name: </label>
+      <label for="parcelName" style="font-weight:bold">Parcel Name: </label>
       <span id="parcelName"></span>
       <br>
-      <label for="parcelArea">Parcel Area: </label>
+      <label for="parcelArea" style="font-weight:bold">Parcel Area: </label>
       <span id="parcelArea"></span>
       <br>
-      <label for="parcelBeginDate">Parcel Begin Date: </label>
+      <label for="parcelBeginDate" style="font-weight:bold">Parcel Begin Date: </label>
       <span id="parcelBeginDate"></span>
       <br>
-      <label for="parcelEndDate">Parcel End Date: </label>
+      <label for="parcelEndDate" style="font-weight:bold">Parcel End Date: </label>
       <span id="parcelEndDate"></span>
-    </div>
+    </p>
 </div>
 
 <div id="accordion" style="font-size:x-small;width:508px">
