@@ -126,7 +126,7 @@
             var parcelID = $("#pivotParcelID").val();
             var distance = $("#distance").val();
 
-            $.getJSON('WS/parcels/' + parcelID + '/adjacent?distance=' + distance, { get_param: 'value' }, function (data) {
+            $.getJSON('@Url.Content("~/WS/parcels/")' + parcelID + '/adjacent?distance=' + distance, { get_param: 'value' }, function (data) {
                 //Clear the summary
                 $('#parcelSummary').html("");
                 $.each(data, function (index, element) {
