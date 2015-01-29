@@ -8,6 +8,14 @@
 /proDev.WebService/bin
 /proDev.WebService/obj
 
+# ignore publish files
+/proDev.Web/Properties/PublishProfiles
+/proDev.WebService/Properties/PublishProfiles
+
+# ignore user files
+/proDev.Web/proDev.Web.csproj.user
+/proDev.WebService/proDev.WebService.csproj.user
+
 # ignore emacs back files
 *~
 \#*\#
