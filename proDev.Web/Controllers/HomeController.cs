@@ -19,14 +19,14 @@ namespace proDev.Controllers
             //Get some data to display on the page
             double areaSum = 0;
 
-            List<CoreEntity> coreEntities = CoreEntity.GetAdjacentEntities(2362, 10000);
+            List<CoreEntity> coreEntities = CoreEntity.GetAdjacentEntities(348, 10000);
             
             ViewBag.PolyList = new List<string>();
 
             foreach (var entity in coreEntities)
             {
-                ViewBag.PolyList.Add("Entity: " + entity.Name + " | Area: " +  entity.GeoPoly.Area.Value + " | " + entity.BeginDate.ToString() + " to " + entity.EndDate.ToString());
-                areaSum += entity.GeoPoly.Area.Value;
+                ViewBag.PolyList.Add("Entity: " + entity.Name + " | Area: " +  entity.PolyGeography.Area.Value + " | " + entity.BeginDate.ToString() + " to " + entity.EndDate.ToString());
+                areaSum += entity.PolyGeography.Area.Value;
             }
 
             ViewBag.TotalArea = areaSum;

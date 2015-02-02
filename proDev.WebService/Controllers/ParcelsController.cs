@@ -35,9 +35,9 @@ namespace proDev.WebService.Controllers
                     Name = entity.Name,
                     BeginDate = entity.BeginDate,
                     EndDate = entity.EndDate,
-                    Area = entity.GeoPoly.Area.Value,
-                    GML = entity.GeoPoly.AsGml(),
-                    WKT = entity.GeoPoly.AsText()
+                    Area = entity.PolyGeography.Area.Value,
+                    GML = entity.PolyGeography.AsGml(),
+                    WKT = entity.PolyGeography.AsText()
                 });
             }
 
@@ -63,11 +63,11 @@ namespace proDev.WebService.Controllers
                     Name = entity.Name,
                     BeginDate = entity.BeginDate,
                     EndDate = entity.EndDate,
-                    Area = entity.GeoPoly.Area.Value,
-                    GML = entity.GeoPoly.AsGml(),
-                    WKT = entity.GeoPoly.AsText()
+                    Area = entity.PolyGeography.Area.Value,
+                    GML = entity.PolyGeography.AsGml(),
+                    WKT = entity.PolyGeography.AsText()
                 });
-                areaSum += entity.GeoPoly.Area.Value;
+                areaSum += entity.PolyGeography.Area.Value;
             }
 
             return parcels;

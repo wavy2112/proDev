@@ -1,7 +1,7 @@
 ﻿USE [PRODEV]
 GO
 
-/****** Object:  Table [dbo].[COREENTITY]    Script Date: 2014-11-27 4:15:14 PM ******/
+/****** Object:  Table [dbo].[COREENTITY]    Script Date: 2015-02-02 11:55:43 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -10,8 +10,9 @@ GO
 
 CREATE TABLE [dbo].[COREENTITY](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[NAME] [nchar](32) NOT NULL,
-	[GEOPOLY] [geography] NOT NULL,
+	[NAME] [varchar](32) NOT NULL,
+	[POLY_GEOMETRY] [geometry] NOT NULL,
+	[POLY_GEOGRAPHY] [geography] NULL,
 	[DATEBEGIN] [datetime] NULL,
 	[DATEEND] [datetime] NULL,
  CONSTRAINT [PK_COREENTITY] PRIMARY KEY CLUSTERED 
@@ -21,4 +22,3 @@ CREATE TABLE [dbo].[COREENTITY](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-

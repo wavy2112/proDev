@@ -14,7 +14,8 @@ namespace proDev.Biz
         public string Name { get; set; }
         public DateTime? BeginDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public DbGeography GeoPoly { get; set; }
+        public DbGeography PolyGeography { get; set; }
+        public DbGeometry PolyGeometry { get; set; }
 
         /// <summary>
         /// Get all core entities
@@ -31,7 +32,8 @@ namespace proDev.Biz
                         Name = ce.NAME,
                         BeginDate = ce.DATEBEGIN,
                         EndDate = ce.DATEEND,
-                        GeoPoly = ce.GEOPOLY
+                        PolyGeography = ce.POLY_GEOGRAPHY,
+                        PolyGeometry = ce.POLY_GEOMETRY
                     })
                     .ToList();              
             }
@@ -55,7 +57,7 @@ namespace proDev.Biz
             {
                 pivotPoly = db.COREENTITies
                     .Where(ce => ce.ID  == pivotEntityID)
-                    .FirstOrDefault().GEOPOLY;
+                    .FirstOrDefault().POLY_GEOGRAPHY;
 
                 adjEntities = db.COREENTITies
                     .Select(ce => new CoreEntity()
@@ -64,14 +66,44 @@ namespace proDev.Biz
                         Name = ce.NAME,
                         BeginDate = ce.DATEBEGIN,
                         EndDate = ce.DATEEND,
-                        GeoPoly = ce.GEOPOLY
+                        PolyGeometry = ce.POLY_GEOMETRY,
+                        PolyGeography = ce.POLY_GEOGRAPHY
                     })
-                    .Where(ce => ce.GeoPoly.Distance(pivotPoly) <= unitDistance)
+                    .Where(ce => ce.PolyGeography.Distance(pivotPoly) <= unitDistance)
                     .ToList();              
             }
 
             return adjEntities;
         }
+
+        /// <summary>
+        /// Get all entities that do not have parents
+        /// </summary>
+        /// <returns></returns>
+        public static List<CoreEntity> GetRootEntities(float buffer)
+        {
+
+            List<CoreEntity> coreEntities;
+            using (var db = new proDev.EF.PRODEVEntities())
+            {
+                coreEntities = db.COREENTITies
+                    //.Where(ce => DbGeometry.FromBinary().con  ce.GEOPOLY.
+                    .Select(ce => new CoreEntity()
+                    {
+                        ID = ce.ID,
+                        Name = ce.NAME,
+                        BeginDate = ce.DATEBEGIN,
+                        EndDate = ce.DATEEND,
+                        PolyGeometry = ce.POLY_GEOMETRY,
+                        PolyGeography = ce.POLY_GEOGRAPHY
+                    })
+                    .ToList();
+            }
+
+            return coreEntities;
+
+        }
     
+
     }
 }
