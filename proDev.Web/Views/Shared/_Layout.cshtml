@@ -8,6 +8,14 @@
     <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
     @RenderSection("PageScripts", false)
     <title>@ViewBag.Title</title>
+    <style>
+        .hidden {
+            display:none;
+        }
+        #rootLoading {
+            color:blue;
+        }
+    </style>
 </head>
 <body>
     <p class="ui-widget" style="font-size:larger;font-weight:600">Parcel Application</p>

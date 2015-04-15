@@ -11,8 +11,7 @@ using proDev.WebService.APIModel;
 namespace proDev.WebService.Controllers
 {
     public class ParcelsController : ApiController
-    {
-
+    {        
         // GET WS/Parcels/{id}/Adjacent
         /// <summary>
         /// Get all entities within the supplied distance from the supplied parcel
@@ -43,7 +42,40 @@ namespace proDev.WebService.Controllers
 
             return parcels;
         }
+
+        // GET WS/Parcels/Root/{tolerance}
+        /// <summary>
+        /// Get root/top-level parcels (parcels that do not have a parent)
+        /// </summary>
+        /// <param name="tolerance"></param>
+        /// <param name="distance"></param>
+        /// <returns></returns>
+        [Route("Parcels/Root/{tolerance:int}")]
+        [HttpGet]
+        public IEnumerable<Parcel> Root(int tolerance = 1)
+        {
+
+            List<Parcel> parcels = new List<APIModel.Parcel>();
+            List<CoreEntity> coreEntities = CoreEntity.GetRootEntities(-.0001 * tolerance);
+
+            foreach (var entity in coreEntities)
+            {
+                parcels.Add(new Parcel()
+                {
+                    ID = entity.ID,
+                    Name = entity.Name,
+                    BeginDate = entity.BeginDate,
+                    EndDate = entity.EndDate,
+                    Area = entity.PolyGeography.Area.Value,
+                    GML = entity.PolyGeography.AsGml(),
+                    WKT = entity.PolyGeography.AsText()
+                });
+            }
+
+            return parcels;
+        }
         
+
         // GET WS/Parcels
         /// <summary>
         /// Get all parcels

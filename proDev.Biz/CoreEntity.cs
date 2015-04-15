@@ -80,14 +80,31 @@ namespace proDev.Biz
         /// Get all entities that do not have parents
         /// </summary>
         /// <returns></returns>
-        public static List<CoreEntity> GetRootEntities(float buffer)
+        public static List<CoreEntity> GetRootEntities(double buffer)
         {
+            //This query is run as raw SQL because some spatial calls (such as Geography.STWithin) are not
+            //available in this version of entity framework but are available as SQL
 
-            List<CoreEntity> coreEntities;
+            //Shrink the poly on left side (ce). If, after it has been shrunk, it is still not contained
+            //by another poly (parentID is null) then it is a top level poly
+
+            //This SQL also works
+            //select c1.* from [COREENTITY] c1
+            //where not exists 
+            //    (select [ID] from [COREENTITY] c2 
+            //     where c2.POLY_GEOMETRY.STContains(c1.POLY_GEOMETRY.STBuffer(-.0001)) = 1  and c1.id <> c2.id)
+            
+            List<CoreEntity> rootEntities;
+
             using (var db = new proDev.EF.PRODEVEntities())
             {
-                coreEntities = db.COREENTITies
-                    //.Where(ce => DbGeometry.FromBinary().con  ce.GEOPOLY.
+                rootEntities = db.COREENTITies.SqlQuery("select ce.* " +
+                                            " from [COREENTITY] ce " +
+                                            " left outer join [COREENTITY] parent " +
+                                            " on ce.[POLY_GEOGRAPHY].STBuffer(@p0).STWithin(parent.[POLY_GEOGRAPHY]) = 1 " +
+                                            " and ce.[ID] <> parent.[ID] " +
+                                            " where parent.ID is null " +
+                                            " order by ce.[ID]", buffer)
                     .Select(ce => new CoreEntity()
                     {
                         ID = ce.ID,
@@ -99,8 +116,8 @@ namespace proDev.Biz
                     })
                     .ToList();
             }
-
-            return coreEntities;
+            
+            return rootEntities;
 
         }
     

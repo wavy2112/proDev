@@ -152,12 +152,55 @@
 
         }
 
+        //Get root parcels from the web service
+        function GetRoot() {
+            ClearMapFeatures();
+
+            var tolerance = $("#tolerance").val();
+
+            $('#rootLoading').removeClass("hidden");
+            $.getJSON('@Url.Content("~/WS/parcels/root/")' + tolerance, { get_param: 'value' }, function (data) {
+                //Clear the summary
+                $('#parcelSummary').html("");
+                $.each(data, function (index, element) {
+                    $('#parcelSummary')
+                        .append('<p></p>')
+                        .append($('<ul>', {
+                            html: '<li><code><b>ID:</b> ' + element.ID + '</code></li>' +
+                                '<li><code><b>Name:</b> ' + element.Name + '</code></li>' +
+                                '<li><code><b>Begin:</b> ' + element.BeginDate + '</code></li>' +
+                                '<li><code><b>End:</b> ' + element.EndDate + '</code></li>' +
+                                '<li><code><b>Area:</b> ' + element.Area + '</code></li>' +
+                                '<li><code><b>GML:</b> ' + element.GML + '</code></li>' +
+                                '<li><code><b>WKT:</b> ' + element.WKT + '</code></li>' +
+                                '<li><code><b>GeoJSON:</b> ' + element.GeoJSON + '</code></li>'
+                        }));
+
+                    AddGeoJSONFeature(element);
+                });
+
+                map.data.addGeoJson(JSON.parse(GetDataLayerGeoJSON()));
+                $('#rootLoading').addClass("hidden");
+            });
+
+        }
+
+
+
 
         $(document).ready(function () {
             google.maps.event.addDomListener(window, 'load', InitializeMap);
 
-            $("#parcelButton").click(function () {
+            $("#parcelButton")
+            .button()
+            .click(function () {
                 GetParcelData();
+            });
+
+            $("#rootButton")
+            .button()
+            .click(function () {
+                GetRoot();
             });
 
             $("#accordion").accordion({
@@ -183,9 +226,19 @@
       <input value="1000" id="distance">
     </p>
 
-    <p>
-    <button id="parcelButton" type="button">Get Parcels</button>
+    <p class="ui-widget" style="font-size:x-small;">
+    <button id="parcelButton" type="button">Get Adjacent</button>
     </p>
+
+    <p class="ui-widget" style="font-size:x-small;">
+    <label for="tolerance">Tolerance: </label>
+    <input value="20000" id="tolerance">
+    <span id="rootLoading" class="hidden">loading...</span>
+    </p>
+    <p class="ui-widget" style="font-size:x-small;">
+    <button id="rootButton" type="button">Get Root</button>
+    </p>
+
 </div>
 
 <div style="background-color:lightgray;padding:4px;margin:2px;margin-bottom:10px;width:500px">
