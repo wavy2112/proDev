@@ -25,6 +25,7 @@
 
 #ignore user creation files, do not want public on GitHub
 Database/DB_2_User.sql
+Database/MYSQL_2_User.sql
 Database/SampleData.sql
 
 #ignore config files, do not want public on GitHub
