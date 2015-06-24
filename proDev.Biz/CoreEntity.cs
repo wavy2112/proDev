@@ -49,6 +49,9 @@ namespace proDev.Biz
         /// <param name="unitDistance"></param>
         /// <returns></returns>
         public static List<CoreEntity> GetAdjacentEntities(int pivotEntityID, int unitDistance){
+
+proDev.Data.MySQLTest.TestConnect();            
+
             DbGeography pivotPoly;
 
             List<CoreEntity> adjEntities;
