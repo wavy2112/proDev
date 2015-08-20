@@ -17,8 +17,8 @@ namespace proDev.Data
     {
         public static void TestConnect()
         {
-            string connStr = ConfigurationManager.AppSettings["Temp_MySqlConnString"];
-
+            string connStr = ConfigurationManager.ConnectionStrings["PRODEVMySQL"].ConnectionString;
+            
             using (MySqlConnection con = new MySqlConnection(connStr))
             {
                 using (MySqlCommand cmd = new MySqlCommand("SELECT NAME, AsWKB(POLY_GEOGRAPHY) as POLYWKB FROM COREENTITY"))
