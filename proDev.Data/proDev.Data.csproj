@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBProviderFacade.cs" />
-    <Compile Include="MySQLTest.cs" />
+    <Compile Include="DBProviderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
