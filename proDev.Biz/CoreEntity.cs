@@ -50,7 +50,7 @@ namespace proDev.Biz
         /// <returns></returns>
         public static List<CoreEntity> GetAdjacentEntities(int pivotEntityID, int unitDistance){
 
-proDev.Data.MySQLTest.TestConnect();            
+proDev.Data.DBProviderTest.TestConnect();            
 
             DbGeography pivotPoly;
 

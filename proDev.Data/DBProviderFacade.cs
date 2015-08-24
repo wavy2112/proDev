@@ -10,9 +10,24 @@ using System.Data.Common;
 using System.Configuration;
 
 namespace proDev.Data
-{
+{    
     public static class DBProviderFacade
     {
+        public enum DBProviders {
+            MSSQLServer = 1,
+            MySQL = 2
+        };
+
+        public static DBProviders GetCurrentDBProvider() {
+            string providerName = ConfigurationManager.ConnectionStrings["PRODEVADONet"].ProviderName;
+            if (providerName.ToLower().Contains("mysql")){
+                return DBProviders.MySQL;
+            }
+            else{
+                return DBProviders.MSSQLServer;
+            }
+        }
+
         /// <summary>
         /// Return a dbprovider factory using provider specified in config
         /// </summary>
